@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Technical content and documentation for hardware, EDA and embedded companies — written and technically verified by a working silicon engineer.">
+<style>
+  html { color-scheme: light dark; }
+  body { margin: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>SiliconDocs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground:      #EDF0F1;
+    --surface:     #FFFFFF;
+    --surface-alt: #E3E8EA;
+    --ink:         #101619;
+    --ink-2:       #3B4A52;
+    --muted:       #64777F;
+    --rule:        #C8D1D4;
+    --rule-soft:   #DCE3E5;
+    --copper:      #B0522A;
+    --copper-soft: #F2E0D6;
+    --met:         #2E7A5F;
+    --violated:    #B03A2E;
+    --code-bg:     #F6F8F8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0C1216;
+      --surface:     #121A1F;
+      --surface-alt: #18232A;
+      --ink:         #E6EDF0;
+      --ink-2:       #B3C2C9;
+      --muted:       #7E919B;
+      --rule:        #26343C;
+      --rule-soft:   #1C272E;
+      --copper:      #E08050;
+      --copper-soft: #2A1A12;
+      --met:         #56B98F;
+      --violated:    #E0705F;
+      --code-bg:     #0E161A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:      #0C1216;
+    --surface:     #121A1F;
+    --surface-alt: #18232A;
+    --ink:         #E6EDF0;
+    --ink-2:       #B3C2C9;
+    --muted:       #7E919B;
+    --rule:        #26343C;
+    --rule-soft:   #1C272E;
+    --copper:      #E08050;
+    --copper-soft: #2A1A12;
+    --met:         #56B98F;
+    --violated:    #E0705F;
+    --code-bg:     #0E161A;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding-inline: 24px;
+    padding-block: 0 96px;
+  }
+
+  /* ---- masthead ---- */
+  .masthead {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-block: 28px 0;
+  }
+  .wordmark {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .wordmark span { color: var(--copper); }
+  .masthead .loc {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+
+  /* ---- hero ---- */
+  .hero { padding-block: 56px 8px; }
+  h1 {
+    font-family: Spectral, Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(34px, 6.2vw, 54px);
+    line-height: 1.08;
+    letter-spacing: -0.018em;
+    margin: 0 0 24px;
+    text-wrap: balance;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--copper);
+  }
+  .standfirst {
+    font-size: clamp(17px, 2.4vw, 19px);
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin: 0 0 32px;
+  }
+
+  /* ---- report block ---- */
+  .report {
+    background: var(--code-bg);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--copper);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px;
+    line-height: 1.75;
+    padding: 20px 22px;
+    overflow-x: auto;
+    color: var(--ink-2);
+    margin-block: 0 40px;
+  }
+  .report .dim { color: var(--muted); }
+  .report .met { color: var(--met); font-weight: 500; }
+  .report .vio { color: var(--violated); font-weight: 500; }
+  .report b { color: var(--ink); font-weight: 500; }
+
+  /* ---- section scaffolding ---- */
+  section { padding-block: 44px 0; }
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .eyebrow::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  h2 {
+    font-family: Spectral, Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(24px, 3.6vw, 31px);
+    line-height: 1.18;
+    letter-spacing: -0.012em;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+  p { max-width: 65ch; margin: 0 0 16px; color: var(--ink-2); }
+  p.lead { color: var(--ink); }
+  strong { color: var(--ink); font-weight: 600; }
+
+  /* ---- domain chips ---- */
+  .domains {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-block: 20px 0;
+    padding: 0;
+    list-style: none;
+  }
+  .domains li {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--ink-2);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 5px 10px;
+    background: var(--surface);
+  }
+
+  /* ---- deliverables list ---- */
+  .deliverables { list-style: none; padding: 0; margin: 8px 0 0; }
+  .deliverables li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 12px;
+    padding-block: 11px;
+    border-bottom: 1px solid var(--rule-soft);
+    color: var(--ink-2);
+  }
+  .deliverables li::before {
+    content: "→";
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    color: var(--copper);
+  }
+  .deliverables b { color: var(--ink); font-weight: 600; }
+
+  /* ---- pricing table ---- */
+  .table-scroll { overflow-x: auto; margin-block: 8px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    min-width: 460px;
+  }
+  th, td {
+    text-align: left;
+    padding: 14px 14px 14px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+  thead th {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 9px;
+  }
+  td.name { color: var(--ink); font-weight: 600; width: 34%; }
+  td.name small {
+    display: block;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  td.price {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--copper);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  td.what { color: var(--ink-2); font-size: 14px; }
+
+  /* ---- samples ---- */
+  .samples { display: grid; gap: 1px; background: var(--rule-soft); border-block: 1px solid var(--rule-soft); margin-top: 8px; }
+  .sample {
+    background: var(--ground);
+    padding: 18px 0;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .sample:hover .sample-title { color: var(--copper); }
+  .sample-title {
+    font-family: Spectral, Georgia, serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 5px;
+    transition: color 140ms ease;
+  }
+  .sample-meta {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ---- offer callout ---- */
+  .offer {
+    background: var(--copper-soft);
+    border: 1px solid var(--copper);
+    border-radius: 3px;
+    padding: 26px 26px 22px;
+    margin-top: 8px;
+  }
+  .offer h2 { margin-bottom: 10px; }
+  .offer p { color: var(--ink-2); }
+  .offer p:last-child { margin-bottom: 0; }
+
+  .cta {
+    display: inline-block;
+    margin-top: 6px;
+    background: var(--copper);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 22px;
+    border-radius: 3px;
+  }
+  .cta:hover { filter: brightness(1.08); }
+
+  a { color: var(--copper); }
+  a:focus-visible, .cta:focus-visible, .sample:focus-visible {
+    outline: 2px solid var(--copper);
+    outline-offset: 3px;
+  }
+
+  /* ---- contact / footer ---- */
+  .contact-lines {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 14px;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0;
+    display: grid;
+    gap: 8px;
+  }
+  .contact-lines span { color: var(--muted); display: inline-block; min-width: 92px; }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    justify-content: space-between;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="wordmark">Silicon<span>Docs</span></div>
+    <div class="loc">Karachi, PK — available worldwide</div>
+  </header>
+
+  <div class="hero">
+    <h1>Most technical writers can write. Very few can <em>read a timing report</em>.</h1>
+    <p class="standfirst">I'm a working silicon engineer — RTL design, functional verification, and physical-design signoff on a RISC-V SoC in GlobalFoundries 12LP+ — and I write the documentation and technical content your engineering audience won't be able to poke holes in.</p>
+  </div>
+
+  <pre class="report"><span class="dim">  Point                                    Incr       Path</span>
+<span class="dim">  --------------------------------------------------------</span>
+  generalist writer, hardware topic        <b>0.000</b>      <span class="vio">n/a</span>
+  agency, two layers of account manager    <b>0.400</b>      0.400
+  engineer who has never written           <b>0.310</b>      0.710
+<span class="dim">  --------------------------------------------------------</span>
+  <b>engineer who writes</b>                      <b>1.000</b>      1.000
+  slack                                            <span class="met">(MET)</span></pre>
+
+  <section>
+    <div class="eyebrow">The problem</div>
+    <h2>Your audience is the hardest audience there is</h2>
+    <p class="lead">Everything you publish is read by engineers who will spot a wrong claim in the first paragraph and quietly stop trusting the rest of it — including the product page.</p>
+    <p>That's why hardware content is so hard to outsource. A generalist writer produces something fluent and subtly wrong. A domain expert who doesn't write produces something correct and unreadable. Both cost you credibility with exactly the people you were trying to reach.</p>
+    <p>I do both halves. Every technical claim I publish under your name, I've verified against the spec, the RTL, the datasheet, or the tool output — and I can defend it in your comments section.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">What I write</div>
+    <ul class="deliverables">
+      <li><span><b>Application notes</b> — complete, with block diagrams, timing figures, configuration tables and a worked example that runs.</span></li>
+      <li><span><b>Developer documentation</b> — getting-started and integration guides that still work when a stranger follows them exactly on a clean machine.</span></li>
+      <li><span><b>Datasheet and user-guide rewrites</b> — for when the content is right and nobody can find anything in it.</span></li>
+      <li><span><b>Technical blog content and tutorial series</b> — the kind that brings qualified engineering traffic rather than bounce.</span></li>
+      <li><span><b>Whitepapers and architecture overviews</b> — for the technical evaluator, not the press release.</span></li>
+      <li><span><b>Technical review</b> — you keep your writer, I catch what would have cost you credibility.</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">Domains I write in without a translator</div>
+    <ul class="domains">
+      <li>Verilog / SystemVerilog</li>
+      <li>UVM &amp; functional verification</li>
+      <li>RISC-V</li>
+      <li>Computer architecture</li>
+      <li>AMBA AXI / AHB / APB</li>
+      <li>Static timing analysis</li>
+      <li>Physical design &amp; signoff</li>
+      <li>FPGA development</li>
+      <li>Embedded systems</li>
+      <li>Linux &amp; hardware toolchains</li>
+      <li>EDA tools and flows</li>
+      <li>Git</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">Writing samples</div>
+    <h2>Judge the level before you talk to me</h2>
+    <div class="samples">
+      <a class="sample" href="writing/reading-a-timing-report.html">
+        <div class="sample-title">Reading Your First Timing Report Without Panicking</div>
+        <div class="sample-meta">Static timing analysis · 1,600 words · educational</div>
+      </a>
+      <a class="sample" href="writing/axi-handshake-mistakes.html">
+        <div class="sample-title">Five AXI Handshake Mistakes That Pass Simulation and Hang Silicon</div>
+        <div class="sample-meta">AMBA protocol · 1,800 words · application note</div>
+      </a>
+      <a class="sample" href="writing/cdc-bugs-that-reach-silicon.html">
+        <div class="sample-title">The Clock-Domain-Crossing Bugs That Reach Silicon</div>
+        <div class="sample-meta">Verification · 1,700 words · technical deep dive</div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Engagements</div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Engagement</th><th>What you get</th><th>Price</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Test Drive<small>72 hours</small></td>
+            <td class="what">One 900-word technical post or app-note section, on a topic you choose. No obligation, no invoice.</td>
+            <td class="price">Free</td>
+          </tr>
+          <tr>
+            <td class="name">Technical Post<small>4 business days</small></td>
+            <td class="what">1,200–1,500 words. Outline approved first, diagrams, code examples, SEO title and meta, 3 social posts, 2 revision rounds.</td>
+            <td class="price">$140</td>
+          </tr>
+          <tr>
+            <td class="name">Documentation Sprint<small>2 weeks</small></td>
+            <td class="what">A getting-started rewrite, a full application note, or a documentation audit with the three worst pages rewritten.</td>
+            <td class="price">$600</td>
+          </tr>
+          <tr>
+            <td class="name">Embedded Technical Writer<small>monthly, cancel anytime</small></td>
+            <td class="what">Four pieces a month, a maintained content calendar, and technical review of anything else you publish.</td>
+            <td class="price">$900/mo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="offer">
+      <h2>Start with the free one</h2>
+      <p>Tell me your product and a topic. In 72 hours you get a finished 900-word piece, written and technically verified, yours to publish with or without credit to me.</p>
+      <p>If it's good, we'll talk about the next one. If it isn't, you've lost an email.</p>
+      <a class="cta" href="mailto:kzm5286@gmail.com?subject=Technical%20content%20—%20free%20sample&amp;body=Product%3A%0ATopic%20idea%3A%0AAudience%3A%0A">Claim the free piece</a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="eyebrow">Who you'd be working with</div>
+    <h2>Syed Hassan Raza Kazmi</h2>
+    <p>RTL and physical-design engineer at a semiconductor company in Karachi, working on a RISC-V SoC in GlobalFoundries 12LP+ — synthesis, timing closure and signoff. Previously on the verification side: UVM environments, L2 cache subsystem debug, and system-level trace. BE in Electronic Engineering and currently an ME in IC Design, both at NED University of Engineering and Technology.</p>
+    <p>I write because the documentation I had to learn from was usually written by someone who had never run the tool, and I got tired of it.</p>
+    <ul class="contact-lines">
+      <li><span>Email</span><a href="mailto:kzm5286@gmail.com">kzm5286@gmail.com</a></li>
+      <li><span>GitHub</span><a href="https://github.com/kazmih">github.com/kazmih</a></li>
+      <li><span>Response</span>Within 24 hours, always.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div>SiliconDocs — technical content for hardware</div>
+    <div>Karachi · PKT (UTC+5)</div>
+  </footer>
+
+</div>
+
+</body>
+</html>

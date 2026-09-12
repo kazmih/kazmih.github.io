@@ -1,0 +1,7 @@
+title: Syed Hassan Raza Kazmi
+description: Technical content for hardware, EDA and embedded companies.
+theme: jekyll-theme-minimal
+show_downloads: false
+
+exclude:
+  - README.md
